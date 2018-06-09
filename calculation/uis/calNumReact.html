@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reactjs: Calculation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css"  href="../src/css/style.css">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+  <div class="container">
+      <nav>
+	      <ul class="nav nav-tabs nav-justified">
+              <li class="nav-item">
+                  <a class="nav-link" href="../main.html">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="./calNumVue.html"><img src="../src/images/vuelogo.png" alt="vuelogo">Vuejs UI</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" href="./calNumReact.html"><img src="../src/images/reactlogo.png" alt="reactlogo">Reactjs UI</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="./calNumNodeAsy.html"><img src="../src/images/nodelogo.png" alt="nodelogo">Nodejs UI</a>
+              </li>
+			  <li class="nav-item">
+                  <a class="nav-link" href="./jasminFrame.html"><img src="../src/images/jaslogo.png" alt="nodelogo">Jasminejs Unit Tests</a>
+              </li>
+          </ul>
+      </nav>
+      <div id="root">
+      </div>
+	  <footer class="container-fluid bg-4 text-center">
+          <p>Author: Yang (James) CHEN (99168512) 2018 Ara.</p> 
+      </footer>
+  </div>
+  <script src="../src/js/Calculation.js"></script>
+  <script type="text/babel">    
+	//note component
+	class NoteCom extends React.Component{
+	  render (){
+	    
+		const isRenderNote = this.props.isRenderNote;
+		
+		const style = `alert alert-${this.props.style}`
+		
+		return (
+		  <React.Fragment>
+		    {isRenderNote ? (
+		      <div className={style}>
+			      {this.props.note}
+		      </div> ) 
+		      :
+			  ''
+		    }
+		  </React.Fragment>
+		)
+	  
+	  }
+	}	
+	
+	//input component
+	class InputArrayStrCom extends React.Component {
+
+	  render() {
+	    
+	    return (
+
+		   <div className="form-group">
+		        <label htmlFor={this.props.id}>{this.props.text}</label>
+		        <input id={this.props.id}  className="form-control" value={this.props.value} onChange={this.props.handleChange}></input>  
+		   </div>
+			  
+			  
+		  
+		)
+	  }
+	
+	}
+	
+	//RstItem
+	class RstItem extends React.Component {
+	
+	  render() {
+	    return (
+		  <React.Fragment>
+		    <strong>{this.props.name}:{this.props.value} </strong>
+			<br></br>
+		  </React.Fragment>
+		)
+	  }
+	
+	}
+	
+	//display component
+	class DisplayRstCom extends React.Component {
+	
+	  render() {
+	    
+		const isDisplayRst = this.props.isDisplayRst
+		const results = this.props.results
+		const falseNote = this.props.falseNote
+		const rstItems = Object.keys(results)
+		        .map(e => (<RstItem key={e} name={e} value={results[e]}/>));
+	
+	    return (
+		  <div>
+		    {isDisplayRst ?
+			  <NoteCom isRenderNote={true} note={rstItems} style="success"/>
+			  :
+              <NoteCom isRenderNote={true} note={falseNote} style="danger"/>
+			}
+		  </div>
+		)
+	  }
+	
+	}
+	
+	//CalMeanAndDeviation
+	class CalMeanAndDeviation extends React.Component {
+	
+      constructor(props) {
+        super(props)
+		
+		this.dealNumObj = this.props.calculator
+
+        this.state = {allTheNumberStr: ''}
+        
+        this.handleClick = this.handleClick.bind(this)
+		this.handleChange = this.handleChange.bind(this)
+      }
+      
+	  handleChange(e){
+		this.setState({allTheNumberStr: e.target.value})
+	  }
+	  
+      handleClick() {
+	    
+		let allMyNumbers = []
+		
+		let theArrayStr = this.state.allTheNumberStr
+		
+		if(theArrayStr!=null && theArrayStr.trim().length>0){
+		   allMyNumbers = theArrayStr.split(",").map(Number)
+		}
+		
+		this.dealNumObj.calculate(allMyNumbers)
+
+		this.setState({allTheNumberStr: ''})
+
+      }
+	  
+      render() {
+	  
+	    const note = "Please with comma for interval, ex: 160,591,114,229,230,270,128,1657,624,1503"
+		const isDisplayRst = this.dealNumObj.allMyNumbers.length>0 ? true : false
+		const results = {
+		                  Sum:this.dealNumObj.sum,
+						  Mean: this.dealNumObj.mean,
+						  'Standard Deviation':this.dealNumObj.stdDev
+						}
+		const falesNotes = "Please Input An Array!"
+	  
+        return (
+          <div>
+            <h2>Calculate Mean and Deviation</h2>
+			
+			<InputArrayStrCom id="arry1" text="Input the Array:" value={this.state.allTheNumberStr} handleChange={this.handleChange}/>
+			
+			<NoteCom isRenderNote={true} note={note} style="info"/>
+			
+            <button type="button" className="btn btn-primary" onClick={this.handleClick}>Calculate</button>
+			<br></br>
+			<br></br>
+			<DisplayRstCom isDisplayRst={isDisplayRst} results = {results} falseNote={falesNotes} />
+          </div>
+        )
+      }
+    }
+	
+	//CalCorrelationAndRegression
+	class CalCorrelationAndRegression extends React.Component {
+	
+      constructor(props) {
+        super(props)
+
+		this.dealNumObj = this.props.calculator
+		
+        this.state = {allTheNumberStrX: '', allTheNumberStrY:'',  
+		        warning: 'Please Input 2 Arrays!', hasInput: false, arrsNum: 0}
+        
+        this.handleClick = this.handleClick.bind(this)
+		this.handleChangeX = this.handleChangeX.bind(this)
+		this.handleChangeY = this.handleChangeY.bind(this)
+      }
+      
+	  handleChangeX(e){
+		this.setState({allTheNumberStrX: e.target.value})
+	  }
+	  
+	  handleChangeY(e){
+		this.setState({allTheNumberStrY: e.target.value})
+	  }
+	  
+      handleClick() {
+		
+		let allMyNumbersX = []
+	    let allMyNumbersY = []
+	    let theArrayStrX = this.state.allTheNumberStrX
+	    let theArrayStrY = this.state.allTheNumberStrY
+		
+		let theArrsNum = this.state.arrsNum;
+		
+	    if(theArrayStrX!=null && theArrayStrX.trim().length>0){
+		  allMyNumbersX = theArrayStrX.split(",").map(Number)
+		  if(theArrsNum != 1){
+		    theArrsNum = 1
+			this.setState({arrsNum: 1})
+		  }
+		  this.setState({warning : 'Please Input Array 2!'})
+	    }
+	  
+	    if(theArrayStrY!=null && theArrayStrY.trim().length>0){
+		  allMyNumbersY = theArrayStrY.split(",").map(Number)
+		  if(theArrsNum == 1){
+		    theArrsNum = 2
+			this.setState({arrsNum: 2}) 
+		  }
+		  this.setState({warning : 'Please Input Array 1!'})
+	    }
+	  
+	  
+	    if(theArrsNum < 2){
+		  this.setState({hasInput: false}) 
+	    }else if(allMyNumbersX.length != allMyNumbersY.length){
+		  this.setState({warning : 'Please input 2 arrays with same length!',hasInput: false})
+	    }else{
+		  this.dealNumObj.calCorrelationAndRegression(allMyNumbersX,allMyNumbersY)
+		  
+		  this.setState({allTheNumberStrX: '', allTheNumberStrY:'',
+ 		          warning: 'Please Input 2 Arrays!', hasInput: true, arrsNum: 0})
+
+	    }
+
+      }
+	  
+      render() {
+	  
+	    const note = "Please with comma for interval, ex: Array One: 130,650,99,150,128,302,95,945,368,961 Array Two：186,699,132,272,291,331,199,1890,788,1601"
+
+	   
+	    const results = {
+		                  Beta1:this.dealNumObj.beta1,
+						  Beat0: this.dealNumObj.beta0,
+						  'Y = beta0 + beta1 * X': `Y = ${this.dealNumObj.beta0} + ${ this.dealNumObj.beta1} * X`
+						 }
+		const falesNotes = this.state.warning
+	  
+        return (
+          <div>
+            <h2>Calculate the Correlation and Regression of Two Arrays of Numbers</h2>
+			
+			<InputArrayStrCom id="arry2" text="Input the Array 1:" value={this.state.allTheNumberStrX} handleChange={this.handleChangeX}/>
+			
+			<InputArrayStrCom id="arry3" text="Input the Array 2:" value={this.state.allTheNumberStrY} handleChange={this.handleChangeY}/>
+			
+			<NoteCom isRenderNote={true} note={note} style="info"/>
+			
+            <button type="button" className="btn btn-primary" onClick={this.handleClick}>Calculate</button>
+            <br></br>
+			<br></br>
+			<DisplayRstCom isDisplayRst={this.state.hasInput} results = {results} falseNote={falesNotes} />
+			
+
+          </div>
+        )
+      }
+    }
+	
+	class CalculatorCom extends React.Component {
+	  
+      render() {
+	    const calculator  = new Calculation()
+	  
+        return (
+          <React.Fragment>
+            <CalMeanAndDeviation calculator={calculator}/>
+			<CalCorrelationAndRegression calculator={calculator}/>
+          </React.Fragment> 
+        )
+      }
+    }
+	
+    const element = <CalculatorCom />
+    
+    ReactDOM.render(
+      element,
+      document.getElementById('root')
+    )    
+  </script>
+</body>
+</html>

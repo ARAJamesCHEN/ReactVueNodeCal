@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vuejs:Calculation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css"  href="../src/css/style.css">
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div class="container">
+    <nav>
+    	<ul class="nav nav-tabs nav-justified">
+            <li class="nav-item">
+                <a class="nav-link" href="../main.html">Home</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link active" href="./calNumVue.html"><img src="../src/images/vuelogo.png" alt="vuelogo">Vuejs UI</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./calNumReact.html"><img src="../src/images/reactlogo.png" alt="reactlogo">Reactjs UI</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./calNumNodeAsy.html"><img src="../src/images/nodelogo.png" alt="nodelogo">Nodejs UI</a>
+            </li>
+			<li class="nav-item">
+                <a class="nav-link" href="./jasminFrame.html"><img src="../src/images/jaslogo.png" alt="jaslogo">Jasminejs Unit Tests</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="root">
+        <h3>Calculate Mean and Deviation</h3>
+    	<div class="form-group">
+            <label for="arry1">Input the Array:</label>
+            <input id="arry1" type="text" class="form-control" v-model="allTheNumberStr"></input>
+        </div>
+    	<div class="alert alert-info">
+    	    Please with <strong>comma</strong> for interval, ex: 160,591,114,229,230,270,128,1657,624,1503
+    	</div>
+        <button type="button" value="Calculate" class="btn btn-primary" @click = "doCalMeanAndStd">Calculate</button>
+        <br>
+        <br>
+        <div id="output" class="alert alert-success" v-if="hasInput" >
+            <strong>Sum:{{ dealNumObj.sum }}</strong>
+    	    <br></br>
+            <strong>Mean:{{ dealNumObj.mean}}</strong>
+            <br></br>
+            <strong>Standard Deviation:{{dealNumObj.stdDev}}</strong>
+        </div>
+    	<div id="output2" v-else>
+    	  <div class="alert alert-danger">Please Input An Array!</div>
+    	</div>
+    </div>
+    <div id="correg">
+        <h3>Calculate the Correlation and Regression of Two Arrays of Numbers</h3>
+        <div class="form-group">
+            <label for="arry2">Input the Array 1:</label>
+            <input id="arry2" type="text" class="form-control" v-model="allTheNumberStrX"></input>
+        </div>
+    	<div class="form-group">
+            <label for="arry3">Input the Array 2:</label>
+            <input id="arry3" type="text" class="form-control" v-model="allTheNumberStrY"></input>
+        </div>
+    	<div class="alert alert-info">
+    	    Please with <strong>comma</strong> for interval, ex: Array One: 130,650,99,150,128,302,95,945,368,961 Array Two：186,699,132,272,291,331,199,1890,788,1601
+    	</div>
+        <button type="button" value="Calculate" class="btn btn-primary" @click = "doCalBetas">Calculate</button>
+        <br>
+        <br>
+        <div id="output" class="alert alert-success" v-if="hasInput">
+    		Y = beta0 + beta1 * X
+			<br></br>
+			Beta1:<strong>{{ dealNumObj.beta1 }}</strong>
+    	    <br></br>
+            Beat0:<strong>{{ dealNumObj.beta0}}</strong>
+            <br></br>
+    		<strong>Y = {{ dealNumObj.beta0}} + {{ dealNumObj.beta1 }} * X</strong>
+        </div>
+    	<div id="output2" v-else>
+    	  <div class="alert alert-danger">{{warning}}</div>
+    	</div>
+    </div>
+	<footer class="container-fluid bg-4 text-center">
+        <p>Author: Yang (James) CHEN (99168512) 2018 Ara.</p> 
+    </footer>
+</div>
+<script src="../src/js/Calculation.js"></script>
+<script src="../src/js/Controller.js"></script>
+
+</body>
+</html>

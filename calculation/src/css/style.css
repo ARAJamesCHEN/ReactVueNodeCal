@@ -1,0 +1,33 @@
+
+* {
+    /* The width of an element will be the size of its border box, not its content box (which is the normal default). */
+    box-sizing: border-box;
+}
+
+.container h1, h2, h3{
+    text-align: center !important;
+}
+
+.list-group-item img {
+	width: 3.5em;
+	padding-right: 1em;
+}
+
+li a img {
+	width: 2.5em;
+	padding-right: 1em;
+}
+
+img {
+	width: 100%;
+}
+
+.bg-4 {
+    background-color: #2f2f2f;
+    color: #fff;
+}
+
+.container-fluid {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
